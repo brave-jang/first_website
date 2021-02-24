@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+무제 | 회원가입
+{% endblock %}
+
+{% block content %}
+
+<div class="login-box">
+    <div class="login-box__content">
+        <form method="POST" action="{% url 'accounts:signup' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="login-area">
+                <input id="login-input" type="text" placeholder="아이디" name="username">
+            </div>
+            <div class="login-area">
+                <input id="login-input" type="password" placeholder="패스워드" name="password">
+            </div>
+            <div class="login-area">
+                <input id="login-input" type="password" placeholder="패스워드 확인" name="password1">
+            </div>
+            <div class="login-area">
+                <input id="login-input" type="text" placeholder="닉네임" name="first_name">
+            </div>
+            <div class="login-area">
+                <input id="login-input" type="text" placeholder="아바타" name="avatar">
+            </div>
+            <div class="login-area__bio">
+               <textarea id="login-input__bio" name="bio">간단한 소개</textarea>
+            </div>
+            <input id="login-button" type="submit" value="회원가입">
+        </form>
+    </div>
+</div>
+{% endblock %}
