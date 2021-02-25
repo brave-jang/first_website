@@ -1,29 +1,16 @@
 {% extends 'layout.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
-{{forms}}
-<div>
-    <div>
-        <input type="url" name="url" placeholder="url을 입력하세요">
-    </div>
-    <div>
-        <textarea name="content" placeholder="글 내용을 요약해주세요"></textarea>
-    </div>
-    <div>
-        <textarea name="comment" placeholder="코멘트"></textarea>
-    </div>
-    <div>
-        <select name="country">
-            <option value='' selected=''>선택</option>
-            <option value='K'>국내</option>
-            <option value='W'>해외</option>
-        </select>
-    </div>
-    <div>
-        <input type="checkbox" name="category">
-    </div>
-    <div>
-        이미지 올리기
-    </div>
+<div class="container">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form forms %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            {{ submit_label|default:"Submit" }}
+        </button>
+        {% endbuttons %}
+    </form>
 </div>
 {% endblock %}

@@ -1,35 +1,27 @@
-<header>
-    <div class="header-title">
-        <a href="{% url 'posts:home' %}">무제</a>
-    </div>
-    <div class="header-category">
-        <a href="#">정치</a>
-        <a href="#">경제</a>
-        <a href="#">IT</a>
-        <a href="#">기업</a>
-        <a href="#">과학</a>
-        <a href="#">사회/문화</a>
-        <a href="#">책 리뷰</a>
-    </div>
-    {% include "partials/messages.html" %}
-    <div class="header-user">
-        {% if user.is_authenticated %}
-        <div clas="header-user__button">
-            <a href="{% url 'posts:posts_write' %}">글쓰기</a>
-        </div>
-        <div clas="header-user__button">
-            <a href="#">{{ user.nickname }}</a>
-        </div>
-        <div clas="header-user__button">
-            <a href="{% url 'accounts:logout' %}">로그아웃</a>
-        </div>
-        {% else %}
-        <div clas="header-user__button">
-            <a href="{% url 'accounts:login' %}">로그인</a>
-        </div>
-        <div clas="header-user__button">
-            <a href="{% url 'accounts:signup' %}">회원가입</a>
-        </div>
-        {% endif %}
-    </div>
-</header>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <a href="{% url 'posts:home' %}">
+    <h5 class="col mr-md-auto font-weight-normal">무제</h5>
+  </a>
+  <nav class="col-7 my-md-0 mr-md-3">
+    <a class="p-2 mr-2 text-dark" href="#">정치</a>
+    <a class="p-2 mr-2 text-dark" href="#">경제</a>
+    <a class="p-2 mr-2 text-dark" href="#">IT</a>
+    <a class="p-2 mr-2 text-dark" href="#">기업</a>
+    <a class="p-2 mr-2 text-dark" href="#">과학</a>
+    <a class="p-2 mr-2 text-dark" href="#">사회/문화</a>
+    <a class="p-2 mr-2 text-dark" href="#">책 리뷰</a>
+  </nav>
+  {% if user.is_authenticated %}
+  {% include "partials/messages.html" %}
+  <nav class="col my-md-0 mr-md-3">
+    <a class="btn btn-outline-primary" href="{% url 'posts:posts_write' %}">글쓰기</a>
+    <a class="btn btn-outline-primary" href="#">프로필</a>
+    <a class="btn btn-outline-primary" href="{% url 'accounts:logout' %}">로그아웃</a>
+  </nav>
+  {% else %}
+  <nav class="col my-md-0 mr-md-3"></nav>
+  <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">로그인</a>
+  <a class="btn btn-outline-primary" href="{% url 'accounts:signup' %}">회원가입</a>
+  </nav>
+  {% endif %}
+</div>
