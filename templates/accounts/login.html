@@ -8,6 +8,7 @@
 
 <div class="login-box">
     <div class="login-box__content">
+        {% include 'partials/error_messages.html' %}
         <form method="POST" action="{% url 'accounts:login' %}">
             {% csrf_token %}
             <div class="login-area">

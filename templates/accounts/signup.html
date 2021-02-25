@@ -8,6 +8,7 @@
 
 <div class="login-box">
     <div class="login-box__content">
+        {% include 'partials/error_messages.html' %}
         <form method="POST" action="{% url 'accounts:signup' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="login-area">
@@ -20,13 +21,13 @@
                 <input id="login-input" type="password" placeholder="패스워드 확인" name="password1">
             </div>
             <div class="login-area">
-                <input id="login-input" type="text" placeholder="닉네임" name="first_name">
-            </div>
-            <div class="login-area">
-                <input id="login-input" type="text" placeholder="아바타" name="avatar">
+                <input id="login-input" type="text" placeholder="닉네임" name="nickname">
             </div>
             <div class="login-area__bio">
                <textarea id="login-input__bio" name="bio">간단한 소개</textarea>
+            </div>
+            <div class="login-area">
+                <input id="login-input" type="file" placeholder="아바타" name="avatar">
             </div>
             <input id="login-button" type="submit" value="회원가입">
         </form>

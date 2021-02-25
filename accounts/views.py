@@ -1,5 +1,7 @@
-from django.contrib.auth import authenticate, login
-from django.urls.base import reverse_lazy
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.urls.base import reverse_lazy, reverse
+from django.shortcuts import redirect
 from django.views.generic import FormView
 from . import models, forms
 
@@ -9,7 +11,19 @@ class UserLoginView(FormView):
     form_class = forms.LoginForm
     success_url = reverse_lazy("posts:home")
 
+    def form_valid(self, form):
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+        user = authenticate(self.request, username=username, password=password)
+        if user is not None:
+            messages.success(self.request, f"어서오세요. {username}님")
+            login(self.request, user)
+        return super().form_valid(form)
 
+def log_out(request):
+    messages.info(request, "로그아웃하였습니다.")
+    logout(request)
+    return redirect(reverse("posts:home"))
 
 class SignupView(FormView):
     template_name = 'accounts/signup.html'
@@ -22,5 +36,6 @@ class SignupView(FormView):
         password = form.cleaned_data.get("password")
         user = authenticate(self.request, username=username, password=password)
         if user is not None:
+            messages.success(self.request, f"어서오세요. {username}님")
             login(self.request, user)
         return super().form_valid(form)

@@ -1,0 +1,32 @@
+<header>
+    <div class="header-title">
+        <a href="{% url 'posts:home' %}">무제</a>
+    </div>
+    <div class="header-category">
+        <a href="#">정치</a>
+        <a href="#">경제</a>
+        <a href="#">IT</a>
+        <a href="#">기업</a>
+        <a href="#">과학</a>
+        <a href="#">사회/문화</a>
+        <a href="#">책 리뷰</a>
+    </div>
+    {% include "partials/messages.html" %}
+    <div class="header-user">
+        {% if user.is_authenticated %}
+        <div clas="header-user__button">
+            <a href="#">{{ user.nickname }}</a>
+        </div>
+        <div clas="header-user__button">
+            <a href="{% url 'accounts:logout' %}">로그아웃</a>
+        </div>
+        {% else %}
+        <div clas="header-user__button">
+            <a href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+        <div clas="header-user__button">
+            <a href="{% url 'accounts:signup' %}">회원가입</a>
+        </div>
+        {% endif %}
+    </div>
+</header>
