@@ -15,6 +15,9 @@
     <div class="header-user">
         {% if user.is_authenticated %}
         <div clas="header-user__button">
+            <a href="{% url 'posts:posts_write' %}">글쓰기</a>
+        </div>
+        <div clas="header-user__button">
             <a href="#">{{ user.nickname }}</a>
         </div>
         <div clas="header-user__button">

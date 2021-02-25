@@ -1,4 +1,5 @@
 @import "reset.css";
 
-@import "components/header.css";
+@import "components/nav.css";
 @import "components/login.css";
+@import "posts/post_box.css";
