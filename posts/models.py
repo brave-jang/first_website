@@ -17,9 +17,9 @@ class Posts(BaseModel):
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to="posts/%Y/%m/%d")
     content = models.TextField()
-    content_img = models.ImageField(upload_to="posts/%Y/%m/%d")
+    content_img = models.ImageField(upload_to="posts/%Y/%m/%d", blank=True, null=True)
     comment = models.TextField(blank=True, null=True)
-    url = models.EmailField()
+    post_url = models.URLField()
     country = models.CharField(max_length=2, choices=CountryChoice.choices)
     category = models.ManyToManyField("Category")
     tag = models.ManyToManyField("Tag", blank=True)
@@ -29,6 +29,7 @@ class Posts(BaseModel):
         return self.title
 
     class Meta:
+        ordering = ['-id']
         verbose_name_plural = "Posts"
 
 
