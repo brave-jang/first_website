@@ -13,12 +13,14 @@
             {% endif %}
             <div class="card-body">
                 <h6 class="font-weight-bold" style="height: 50px;">{{post.title}}</h6>
-                <p class="card-text" style="height: 100px;">{{post.content}}</p>
+                <p class="card-text" style="height: 100px; overflow: auto;">{{post.content}}</p>
                 <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-primary">더보기</a>
                 {% if post.user == request.user %}
                 <a href="{% url 'posts:posts_edit' post.pk %}" class="btn btn-primary">수정하기</a>
                 {% endif %}
-                {{post.category}}
+                {% for name in post.category.all %}
+                    {{name}}
+                {% endfor %}
                 {{post.created_at}}
                 {{post.user.nickname}}
             </div>

@@ -1,11 +1,13 @@
 import math
-from django.core import paginator
 import requests
+from accounts import mixins
 from bs4 import BeautifulSoup
 from django.core.paginator import Paginator
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, FormView
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from . import forms, models
 
 
@@ -29,7 +31,7 @@ def posts(request):
     paginator = Paginator(post_list, 5)
     page_number = request.GET.get('page', 1)
     post_list = paginator.get_page(page_number)
-    
+
     count = 5
     end_page = paginator.count / 5
 
@@ -51,22 +53,38 @@ def posts_politics(request):
     return render(request, "posts/posts_list.html", {'post_list':post_list})
 
 
-@login_required
-def post_write(request):
-    if request.method == "POST":
-        form = forms.PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            url = form.cleaned_data.get("post_url")
-            post.title = title_crawling(url)[0]
-            post.save()
-            form.save_m2m()
-            return redirect("posts:home")
-    else:
-        form = forms.PostForm()
+class CreatePosts(mixins.LoggedInOnlyView, FormView):
+
+    form_class = forms.CreatePostsForm
+    template_name = "posts/posts_write.html"
+
+    def form_valid(self, form):
+        post = form.save()
+        post.user = self.request.user
+        url = form.cleaned_data.get("post_url")
+        post.title = title_crawling(url)[0]
+        post.save()
+        form.save_m2m()
+        messages.success(self.request, "작성 완료!")
+        return redirect("posts:posts_detail")
+
+
+# @login_required
+# def post_write(request):
+#     if request.method == "POST":
+#         form = forms.PostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.user = request.user
+#             url = form.cleaned_data.get("post_url")
+#             post.title = title_crawling(url)[0]
+#             post.save()
+#             form.save_m2m()
+#             return redirect("posts:home")
+#     else:
+#         form = forms.PostForm()
     
-    return render(request, "posts/posts_write.html", {'forms':form})
+#     return render(request, "posts/posts_write.html", {'forms':form})
 
 
 class PostDetail(DetailView):

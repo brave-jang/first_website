@@ -5,7 +5,7 @@
 <div class="container">
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form forms %}
+        {% bootstrap_form form %}
         {% buttons %}
         <button type="submit" class="btn btn-primary">
             {{ submit_label|default:"Submit" }}
