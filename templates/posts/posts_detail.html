@@ -3,9 +3,26 @@
 
 {% block content %}
 <div class="container">
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{posts}}{{posts.user}}
-    </form>
+    <div class="card">
+        <div class="card-header">
+            {{forms.title}}
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                {% if forms.content_img %}
+                <img src={{forms.content_img.url}}>
+            {% endif %}
+                <p>{{forms.content}}</p>
+            </blockquote>
+    </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p>{{forms.comment}}</p>
+            </blockquote>
+        </div>
+        <div class="card-footer text-muted">
+            {{forms.created_at}}, {{forms.user}}
+        </div>
+    </div>
 </div>
 {% endblock %}

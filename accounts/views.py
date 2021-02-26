@@ -1,12 +1,13 @@
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.urls.base import reverse_lazy, reverse
 from django.shortcuts import redirect
 from django.views.generic import FormView
-from . import models, forms
+from . import models, forms, mixins
 
 
-class UserLoginView(FormView):
+class UserLoginView(mixins.LoggedOutOnlyView ,FormView):
     template_name = 'accounts/login.html'
     form_class = forms.LoginForm
     success_url = reverse_lazy("posts:home")
@@ -20,12 +21,13 @@ class UserLoginView(FormView):
             login(self.request, user)
         return super().form_valid(form)
 
+@login_required
 def log_out(request):
     messages.info(request, "로그아웃하였습니다.")
     logout(request)
     return redirect(reverse("posts:home"))
 
-class SignupView(FormView):
+class SignupView(mixins.LoggedOutOnlyView, FormView):
     template_name = 'accounts/signup.html'
     form_class = forms.SignupForm
     success_url = reverse_lazy("posts:home")
