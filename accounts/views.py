@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
 from django.urls.base import reverse_lazy, reverse
 from django.shortcuts import redirect
@@ -42,10 +43,12 @@ class SignupView(mixins.LoggedOutOnlyView, FormView):
             login(self.request, user)
         return super().form_valid(form)
 
+
 class ProfileView(DetailView):
     model = models.User
     template_name = 'accounts/profile.html'
     context_object_name = 'forms'
+
 
 class UpdateProfileView(UpdateView):
     model = models.User
@@ -59,3 +62,7 @@ class UpdateProfileView(UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class ChangePassword(PasswordChangeView):
+    template_name = 'accounts/change_password.html'
