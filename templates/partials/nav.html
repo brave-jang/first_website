@@ -12,11 +12,11 @@
     <a class="p-2 mr-2 text-dark" href="#">사회/문화</a>
     <a class="p-2 mr-2 text-dark" href="#">책 리뷰</a>
   </nav>
-  {% if user.is_authenticated %}
   {% include "partials/messages.html" %}
+  {% if user.is_authenticated %}
   <nav class="col my-md-0 mr-md-3">
     <a class="btn btn-outline-primary" href="{% url 'posts:posts_write' %}">글쓰기</a>
-    <a class="btn btn-outline-primary" href="#">프로필</a>
+    <a class="btn btn-outline-primary" href="{{user.get_absolute_url}}">프로필</a>
     <a class="btn btn-outline-primary" href="{% url 'accounts:logout' %}">로그아웃</a>
   </nav>
   {% else %}

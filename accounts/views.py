@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls.base import reverse_lazy, reverse
 from django.shortcuts import redirect
-from django.views.generic import FormView
+from django.views.generic import FormView, UpdateView, DetailView
 from . import models, forms, mixins
 
 
@@ -41,3 +41,21 @@ class SignupView(mixins.LoggedOutOnlyView, FormView):
             messages.success(self.request, f"어서오세요. {username}님")
             login(self.request, user)
         return super().form_valid(form)
+
+class ProfileView(DetailView):
+    model = models.User
+    template_name = 'accounts/profile.html'
+    context_object_name = 'forms'
+
+class UpdateProfileView(UpdateView):
+    model = models.User
+    template_name = 'accounts/update_profile.html'
+    context_object_name = 'forms'
+    fields = (
+        'nickname',
+        'avatar',
+        'bio',
+    )
+
+    def get_object(self, queryset=None):
+        return self.request.user

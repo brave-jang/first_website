@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+무제 | 프로필
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+          {{user}} Profile
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">닉네임 : {{user.nickname}}</li>
+          <li class="list-group-item">프로필 사진 : 
+              <img src="{{user.avatar.url}}"></li>
+          <li class="list-group-item">{{user.bio}}</li>
+        </ul>
+      </div>
+      <a class="btn btn-primary" href="{% url 'accounts:profile_update' %}" role="button">프로필 수정</a>
+</div>
+{% endblock %}
