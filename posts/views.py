@@ -1,4 +1,5 @@
 import math
+from django.http.response import Http404
 import requests
 from accounts import mixins
 from bs4 import BeautifulSoup
@@ -28,7 +29,7 @@ def img_download(url):
 
 def posts(request):
     post_list = models.Posts.objects.all()
-    paginator = Paginator(post_list, 5)
+    paginator = Paginator(post_list, 12)
     page_number = request.GET.get('page', 1)
     post_list = paginator.get_page(page_number)
 
@@ -48,6 +49,7 @@ def posts(request):
     page_obj = paginator.page_range[start:end]
     return render(request, "posts/posts_list.html", {'post_list':post_list, 'page_obj':page_obj})
 
+
 def posts_politics(request):
     post_list = models.Posts.objects.filter(category = '0')
     return render(request, "posts/posts_list.html", {'post_list':post_list})
@@ -63,10 +65,11 @@ class CreatePosts(mixins.LoggedInOnlyView, FormView):
         post.user = self.request.user
         url = form.cleaned_data.get("post_url")
         post.title = title_crawling(url)[0]
+        post.image = title_crawling(url)[1]
         post.save()
         form.save_m2m()
         messages.success(self.request, "작성 완료!")
-        return redirect("posts:posts_detail")
+        return redirect(reverse("posts:posts_detail", kwargs={"pk":post.pk}))
 
 
 # @login_required
@@ -100,12 +103,28 @@ def post_edit(request, pk):
         form = forms.PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid:
             post = form.save(commit=False)
-            post.user = request.user
-            url = form.cleaned_data.get("post_url")
-            post.title = title_crawling(url)[0]
-            post.save()
-            return redirect("posts:posts_detail", pk=pk)
+            if post.user == request.user:
+                url = form.cleaned_data.get("post_url")
+                post.title = title_crawling(url)[0]
+                post.save()
+                form.save_m2m()
+                return redirect("posts:posts_detail", pk=pk)
+            else:
+                raise Http404
     else:
-        form = forms.PostForm(instance=post)
+        if post.user == request.user:
+            form = forms.PostForm(instance=post)
+        else:
+            raise Http404
 
     return render(request, "posts/posts_edit.html", {'forms':form})
+
+
+@login_required
+def post_delete(request, pk):
+    post = get_object_or_404(models.Posts, pk=pk)
+    if post.user == request.user:
+        post.delete()
+        return redirect("posts:home")
+    else:
+        Http404

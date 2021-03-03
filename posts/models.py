@@ -15,7 +15,7 @@ class Posts(BaseModel):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="posts_user", on_delete=CASCADE)
     title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="posts/%Y/%m/%d", blank=True)
+    image = models.TextField(blank=True)
     content = models.TextField()
     content_img = models.ImageField(upload_to="posts/%Y/%m/%d", blank=True, null=True)
     comment = models.TextField(blank=True, null=True)
