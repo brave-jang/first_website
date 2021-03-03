@@ -13,7 +13,7 @@ class Posts(BaseModel):
         KOREA = "K", "국내"
         WORLD = "W", "해외"
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="posts_user", on_delete=CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="posts", on_delete=CASCADE)
     title = models.CharField(max_length=100)
     image = models.TextField(blank=True)
     content = models.TextField()

@@ -12,6 +12,7 @@ class UserLoginView(mixins.LoggedOutOnlyView ,FormView):
     template_name = 'accounts/login.html'
     form_class = forms.LoginForm
     success_url = reverse_lazy("posts:home")
+    context_object_name = 'forms'
 
     def form_valid(self, form):
         username = form.cleaned_data.get("username")
@@ -47,13 +48,13 @@ class SignupView(mixins.LoggedOutOnlyView, FormView):
 class ProfileView(DetailView):
     model = models.User
     template_name = 'accounts/profile.html'
-    context_object_name = 'forms'
+    context_object_name = 'user_obj'
 
 
 class UpdateProfileView(UpdateView):
     model = models.User
     template_name = 'accounts/update_profile.html'
-    context_object_name = 'forms'
+    context_object_name = 'user_obj'
     fields = (
         'nickname',
         'avatar',
