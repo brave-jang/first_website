@@ -5,12 +5,12 @@
   <nav class="col-7 my-md-0 mr-md-3">
     <a class="p-2 mr-2 text-dark" href="{% url 'posts:home' %}">전체</a>
     <a class="p-2 mr-2 text-dark" href="{% url 'posts:politics' %}">정치</a>
-    <a class="p-2 mr-2 text-dark" href="#">경제</a>
-    <a class="p-2 mr-2 text-dark" href="#">IT</a>
-    <a class="p-2 mr-2 text-dark" href="#">기업</a>
-    <a class="p-2 mr-2 text-dark" href="#">과학</a>
-    <a class="p-2 mr-2 text-dark" href="#">사회/문화</a>
-    <a class="p-2 mr-2 text-dark" href="#">책 리뷰</a>
+    <a class="p-2 mr-2 text-dark" href="{% url 'posts:economy' %}">경제</a>
+    <a class="p-2 mr-2 text-dark" href="{% url 'posts:it' %}">IT</a>
+    <a class="p-2 mr-2 text-dark" href="{% url 'posts:company' %}">기업</a>
+    <a class="p-2 mr-2 text-dark" href="{% url 'posts:science' %}">과학</a>
+    <a class="p-2 mr-2 text-dark" href="{% url 'posts:society' %}">사회/문화</a>
+    <a class="p-2 mr-2 text-dark" href="{% url 'posts:book_review' %}">책 리뷰</a>
   </nav>
   {% if user.is_authenticated %}
   <nav class="col-3">

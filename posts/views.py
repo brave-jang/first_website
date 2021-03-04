@@ -1,11 +1,11 @@
 import math
-from django.http.response import Http404
 import requests
 from accounts import mixins
 from bs4 import BeautifulSoup
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http.response import Http404
 from django.views.generic import DetailView, FormView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -51,8 +51,33 @@ def posts(request):
 
 
 def posts_politics(request):
-    post_list = models.Posts.objects.filter(category = '0')
+    post_list = models.Posts.objects.filter(category__name = '정치')
     return render(request, "posts/posts_list.html", {'post_list':post_list})
+
+def posts_economy(request):
+    post_list = models.Posts.objects.filter(category__name = '경제')
+    return render(request, "posts/posts_list.html", {'post_list':post_list})
+
+def posts_it(request):
+    post_list = models.Posts.objects.filter(category__name = 'IT')
+    return render(request, "posts/posts_list.html", {'post_list':post_list})
+
+def posts_company(request):
+    post_list = models.Posts.objects.filter(category__name = '기업')
+    return render(request, "posts/posts_list.html", {'post_list':post_list})
+
+def posts_science(request):
+    post_list = models.Posts.objects.filter(category__name = '과학')
+    return render(request, "posts/posts_list.html", {'post_list':post_list})
+
+def posts_society(request):
+    post_list = models.Posts.objects.filter(category__name = '사회/문화')
+    return render(request, "posts/posts_list.html", {'post_list':post_list})
+
+def posts_bookreview(request):
+    post_list = models.Posts.objects.filter(category__name = '책 리뷰')
+    return render(request, "posts/posts_list.html", {'post_list':post_list})
+
 
 
 class CreatePosts(mixins.LoggedInOnlyView, FormView):
@@ -94,7 +119,6 @@ class PostDetail(DetailView):
     model = models.Posts
     template_name = 'posts/posts_detail.html'
     context_object_name = 'forms'
-
 
 @login_required
 def post_edit(request, pk):
