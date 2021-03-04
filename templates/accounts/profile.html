@@ -6,25 +6,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="container d-flex justify-content-center">
-  <div class="card" style="width: 18rem;">
-    <div class="card-header">
-      {{user}} Profile
+<div class="container d-flex">
+  <div class="card mr-5" style="width: 190px; height: 300px;">
+    <div class="card-header d-flex justify-content-center">
+      {{user.nickname}}'s Profile
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">닉네임 : {{user.nickname}}</li>
-      <li class="list-group-item">프로필 사진 :
-        <img src="{{user.avatar.url}}">
-      </li>
+      <div class="d-flex justify-content-center mt-2">
+          <img src="{{user.avatar.url}}" style="height: 90px; width: 100px; background-size: cover;">
+      </div>
       <li class="list-group-item">{{user.bio}}</li>
     </ul>
-    <a class="btn btn-primary" href="{% url 'accounts:profile_update' %}" role="button">프로필 수정</a>
+    <a class="btn btn-primary m-3" href="{% url 'accounts:profile_update' %}" role="button">프로필 수정</a>
   </div>
-</div>
-<div class="container d-flex justify-content-center">
   <div class="row align-items">
     {% for post in user_obj.posts.all %}
-    <div class="card mr-3 mb-3" style="height: 450px; width: 250px;">
+    <div class="card mr-3 mb-3" style="height: 530px; width: 250px; overflow: hidden;">
       {% if post.image %}
       <img src="{{post.image}}" class="card-img-top mb-2" alt="이미지를 찾을 수 없습니다."
         style="height: 150px; background-size: cover;">
@@ -36,19 +33,19 @@
       <div class="card-body mt-1 pt-1">
         <h6 class="font-weight-bold" style="height: 50px;">{{post.title}}</h6>
         <p class="card-text" style="height: 100px; overflow: auto;">{{post.content}}</p>
-        <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-primary">더보기</a>
-        {% if post.user == request.user %}
-        <a href="{% url 'posts:posts_edit' post.pk %}" class="btn btn-primary">수정하기</a>
-        <a href="{% url 'posts:posts_delete' post.pk %}" class="btn btn-danger">삭제하기</a>
-        {% endif %}
-        {% for name in post.category.all %}
-        {{name}}
-        {% endfor %}
-        {{post.user.nickname}}
+        <div class="d-flex flex-column justify-content-end">
+          <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-primary mt-2">더보기</a>
+          {% if post.user == request.user %}
+          <a href="{% url 'posts:posts_edit' post.pk %}" class="btn btn-primary mt-2">수정하기</a>
+          <a href="{% url 'posts:posts_delete' post.pk %}" class="btn btn-danger mt-2">삭제하기</a>
+          {% endif %}
+          {% for name in post.category.all %}
+          {{name}}
+          {% endfor %}
+        </div>
       </div>
     </div>
     {% endfor %}
   </div>
-</div>
 </div>
 {% endblock %}
