@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import widgets
+from django.utils.translation import gettext, gettext_lazy as _
 from . import models
 
 
@@ -21,14 +23,28 @@ class LoginForm(forms.Form):
 
 
 class SignupForm(forms.ModelForm):
+    password = forms.CharField(
+        label=_("비밀번호"),
+        widget=forms.PasswordInput(attrs={"placeholder": "비밀번호"}))
+    password1 = forms.CharField(
+        label=_("비밀번호 확인"),
+        widget=forms.PasswordInput(attrs={"placeholder": "비밀번호 확인"}))
+
     class Meta:
         model = models.User
         fields = (
             "username", "nickname", "avatar", "bio"
         )
-
-    password = forms.CharField(widget=forms.PasswordInput)
-    password1 = forms.CharField(widget=forms.PasswordInput)
+        widgets = {
+            "bio" : widgets.Textarea(),
+        }
+        labels = {
+            'username' : '아이디',
+            'nickname' : '닉네임',
+            'avatar' : '프로필 사진',
+            'bio' : '자기소개',
+            'password' : '비밀번호'
+        }
 
 
     def clean_username(self):
