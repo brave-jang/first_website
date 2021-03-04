@@ -7,15 +7,15 @@
 
 {% block content %}
 <div class="container d-flex">
-  <div class="card mr-5" style="width: 190px; height: 300px;">
+  <div class="card mr-5" style="width: 250px; height: 300px;">
     <div class="card-header d-flex justify-content-center">
-      {{user.nickname}}'s Profile
+      {{user_obj.nickname}}'s Profile
     </div>
     <ul class="list-group list-group-flush">
       <div class="d-flex justify-content-center mt-2">
-          <img src="{{user.avatar.url}}" style="height: 90px; width: 100px; background-size: cover;">
+          <img src="{{user_obj.avatar.url}}" style="height: 90px; width: 100px; background-size: cover;">
       </div>
-      <li class="list-group-item">{{user.bio}}</li>
+      <li class="list-group-item">{{user_obj.bio}}</li>
     </ul>
     <a class="btn btn-primary m-3" href="{% url 'accounts:profile_update' %}" role="button">프로필 수정</a>
   </div>
@@ -40,7 +40,7 @@
           <a href="{% url 'posts:posts_delete' post.pk %}" class="btn btn-danger mt-2">삭제하기</a>
           {% endif %}
           {% for name in post.category.all %}
-          {{name}}
+            {{name}}
           {% endfor %}
         </div>
       </div>
