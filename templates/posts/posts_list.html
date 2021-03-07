@@ -19,9 +19,9 @@
                 <div class="d-flex flex-column justify-content-end">
                     <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-primary">더보기</a>
                     <div>
-                    {% for name in post.category.all %}
-                        {{name}}
-                    {% endfor %}
+                        {% for name in post.category.all %}
+                            {{name}}
+                        {% endfor %}
                     </div>
                     <div class="text-right font-weight-light" style="font-size: 14px;">
                         <a href="{% url 'accounts:profile' post.user.pk%}">
@@ -32,21 +32,8 @@
             </div>
         </div>
         {% endfor %}
+        <div class="d-flex justify-content-center w-100">
+            {% include 'partials/page_nav.html' %}
+        </div>
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            {% if post_list.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{post_list.previous_page_number}}">Previous</a></li>
-            {% endif %}
-            {% for page in page_obj %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{page}}">{{page}}</a>
-            </li>
-            {% endfor %}
-            {% if post_list.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{post_list.next_page_number}}">Next</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-</div>
-{% endblock %}
+    {% endblock %}

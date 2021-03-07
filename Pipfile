@@ -11,6 +11,7 @@ requests = "*"
 beautifulsoup4 = "*"
 
 [dev-packages]
+awsebcli = "*"
 
 [requires]
 python_version = "3.8"

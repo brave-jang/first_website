@@ -5,8 +5,8 @@ from . import models
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(label=_("아이디"))
+    password = forms.CharField(widget=forms.PasswordInput, label=_("비밀번호"))
 
     def clean(self):
         username = self.cleaned_data.get('username')
