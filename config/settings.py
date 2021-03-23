@@ -24,9 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '_e3wl%)f+2kkhxx+pjj=@nw3na1fw(130y!knfp@b)#b5dw*c='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get("DEBUG") in ["1", "t", "true", "T", "True"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -112,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -135,3 +134,29 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = "accounts.User"
+
+STATICFILES_STORAGE = "config.storages.StaticAzureStorage"
+DEFAULT_FILE_STORAGE = "config.storages.MediaAzureStorage"
+
+# AZURE_ACCOUNT_NAME = os.environ["AZURE_ACCOUNT_NAME"]
+# AZURE_ACCOUNT_KEY = os.environ["AZURE_ACCOUNT_KEY"]
+
+AZURE_ACCOUNT_NAME = "educastaskcompany"
+AZURE_ACCOUNT_KEY = "myCEn4LUa7UxwugVC0SjgdpaOtBR35TpBkev8KUlKz0LJFhUoQUPb3NFV451fjnFVfGzDITf5hkbJYkSpwGK/A=="
+
+DATABASES = {
+    "default": {
+        "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.postgresql"),
+        "HOST": os.environ["DB_HOST"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "NAME": os.environ.get("DB_NAME", "postgres"),
+    },
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"level": "ERROR", "class": "logging.StreamHandler", }, },
+    "loggers": {"django": {"handlers": ["console"], "level": "ERROR", }, },
+}
